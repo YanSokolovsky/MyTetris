@@ -9,33 +9,20 @@
 #include <windows.h>
 #include <boost/thread.hpp>
 using namespace std;
-void write(string sceneState)
-{
-	invisible_cursor();
-	move_cursore_topleft();
-	cout << sceneState;
-};
-string animation_loader(string filename)
-{
-    string line;
-    string resline;
-    ifstream in(filename);
-    if (in.is_open()) {
-        while (getline(in, line)) {
-            resline += line + "\n";
-        }
-    }
-    in.close();
-    return resline;
-};
 void selector(int i)
 {
 	i = i % 3;
 	switch (i)
 	{
-	case 0: write(animation_loader("start0.txt")); break;
-	case 1: write(animation_loader("start1.txt")); break;
-	case 2: write(animation_loader("start2.txt")); break;
+	case 0: invisible_cursor();
+			move_cursore_topleft();
+			cout << slow_drawer_from_file("start0.txt"); break;
+	case 1:	invisible_cursor();
+			move_cursore_topleft(); 
+			cout << slow_drawer_from_file("start1.txt"); break;
+	case 2:	invisible_cursor();
+			move_cursore_topleft();
+			cout << slow_drawer_from_file("start2.txt"); break;
 	}
 };
 void start_menu_launch()
@@ -47,11 +34,13 @@ void start_menu_launch()
 	int button = 102;
 	char key;
 	set_console_size_by_chars(34, 63);
-	write(animation_loader("start.txt"));
+	centralize_console();
+	cout << slow_drawer_from_file("start.txt");
 	while (true)
 	{
 		if (GetAsyncKeyState(VK_UP) & 0x8000)
 		{
+			button--;
 			selector(button);
 			for (int i = 0; i < 15 && GetAsyncKeyState(VK_UP) & 0x8000; i++)
 			{
@@ -66,6 +55,7 @@ void start_menu_launch()
 		}
 		if (GetAsyncKeyState(VK_DOWN) & 0x8000)
 		{
+			button++;
 			selector(button);
 			for (int i = 0; i < 15 && GetAsyncKeyState(VK_DOWN) & 0x8000; i++)
 			{
@@ -84,13 +74,13 @@ void start_menu_launch()
 			move_cursore_topleft();
 			invisible_cursor();
 			if (button % 3 == 0) {
-				boost::thread t(startgame, settings, score);
-				t.join();
+				//boost::thread t(startgame, settings, score);
+				//t.join();
 				set_console_size_by_chars(34, 63);
 			}
 			if (button % 3 == 1) {
-				boost::thread t(operateset, settings);
-				t.join();
+				//boost::thread t(operateset, settings);
+				//t.join();
 				set_console_size_by_chars(34, 63);
 			}
 			if (button % 3 == 2) {

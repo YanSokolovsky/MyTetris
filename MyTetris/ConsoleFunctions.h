@@ -1,5 +1,5 @@
 #pragma once
-#include <windows.h>
+#include <string>
 void invisible_cursor();
 void clear_console();
 void move_cursore_topleft();
@@ -10,3 +10,5 @@ int get_pixel_console_height();
 int get_pixel_screen_width();
 int get_pixel_screen_height();
 void centralize_console();
+std::string slow_drawer_from_file(std::string filename);
+void clear_IObuffer();

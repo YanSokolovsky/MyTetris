@@ -1,6 +1,9 @@
 #include"ConsoleFunctions.h"
+
 #include <windows.h>
 #include <string>
+#include <fstream>
+#include <iostream>
 
 void invisible_cursor()
 {
@@ -47,18 +50,18 @@ void set_console_size_by_chars(int rows, int columns)
 
 int get_pixel_console_width()
 {
-	HANDLE ConsoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
-	CONSOLE_SCREEN_BUFFER_INFO csbi;
-	GetConsoleScreenBufferInfo(ConsoleHandle, &csbi);
-	return csbi.srWindow.Right - csbi.srWindow.Left + 1;
+	HWND consoleWindow = GetConsoleWindow();
+	RECT rect;
+	GetWindowRect(consoleWindow, &rect);
+	return rect.right - rect.left;
 }
 
 int get_pixel_console_height()
 {
-	HANDLE ConsoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
-	CONSOLE_SCREEN_BUFFER_INFO csbi;
-	GetConsoleScreenBufferInfo(ConsoleHandle, &csbi);
-	return csbi.srWindow.Bottom - csbi.srWindow.Top + 1;
+	HWND consoleWindow = GetConsoleWindow();
+	RECT rect;
+	GetWindowRect(consoleWindow, &rect);
+	return rect.bottom - rect.top;
 }
 
 int get_pixel_screen_width()
@@ -74,12 +77,29 @@ int get_pixel_screen_height()
 void centralize_console()
 {
 	HWND consoleWindow = GetConsoleWindow();
-	SetWindowPos(consoleWindow,
-				 HWND_TOP,
-				 get_pixel_screen_width() / 2 - get_pixel_console_width() / 2,
-				 get_pixel_screen_height() / 2 - get_pixel_console_height() / 2,
-				 get_pixel_screen_width(),
-				 get_pixel_screen_height(),
-				 NULL);
+	int newX = (get_pixel_screen_width() - get_pixel_console_width()) / 2;
+	int newY = (get_pixel_screen_height() - get_pixel_console_height()) / 2;
+	MoveWindow(consoleWindow, newX, newY, get_pixel_console_width(), get_pixel_console_height(), TRUE);
+	return;
+}
+
+std::string slow_drawer_from_file(std::string filename)
+{
+	std::string line;
+	std::string resline;
+	std::ifstream in(filename);
+	if (in.is_open()) {
+		while (std::getline(in, line)) {
+			resline += line + "\n";
+		}
+	}
+	in.close();
+	return resline;
+}
+
+void clear_IObuffer()     // recomedation: clear console after using this function
+{
+	std::cin.clear();
+	std::cin.ignore(1000, '\n');
 	return;
 }
