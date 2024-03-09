@@ -1,6 +1,7 @@
 #include "ConsoleFunctions.h"
 #include "Settings.h"
 #include "Score.h"
+#include "ScoreScene.h"
 
 #include <string>
 #include <iostream>
@@ -93,7 +94,7 @@ void start_menu_launch()
 				set_console_size_by_chars(34, 63);
 			}
 			if (button % 3 == 2) {
-				boost::thread t(operatescore, score);
+				boost::thread t(score_menu_launch, score);
 				t.join();
 				set_console_size_by_chars(34, 63);
 			}
