@@ -2,6 +2,7 @@
 #include "Settings.h"
 #include "Score.h"
 #include "ScoreScene.h"
+#include "SettingsScene.h"
 
 #include <string>
 #include <iostream>
@@ -29,7 +30,7 @@ void start_menu_launch()
 {
 	invisible_cursor();
 	Settings* settings = new Settings();
-	settings->get_settings_from_file();
+	settings->standart_settings();
 	Score* score = new Score();
 	int button = 102;
 	char key;
@@ -79,8 +80,8 @@ void start_menu_launch()
 				set_console_size_by_chars(34, 63);
 			}
 			if (button % 3 == 1) {
-				//boost::thread t(operateset, settings);
-				//t.join();
+				boost::thread t(settings_menu_launch, settings);
+				t.join();
 				set_console_size_by_chars(34, 63);
 			}
 			if (button % 3 == 2) {
