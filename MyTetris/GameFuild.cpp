@@ -1061,7 +1061,7 @@ struct SQbrick : public brick
 		fld->f[ycenter][xcenter].sq = "[]"; fld->f[ycenter][xcenter + 1].sq = "[]"; fld->f[ycenter + 1][xcenter].sq = "[]"; fld->f[ycenter + 1][xcenter + 1].sq = "[]";
 	};
 };
-void drop(brick* t, settings* setin)
+void drop(brick* t, Settings* setin)
 {
 	int i = 1000;
 	while (true)
