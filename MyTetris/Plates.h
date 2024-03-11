@@ -4,12 +4,21 @@
 
 #include <string>
 using namespace std;
+
+struct ScorePlate;
+struct Fuild;
+struct Visitor
+{
+	virtual void get_plate(Fuild* fuild) = 0;
+	virtual void get_plate(ScorePlate* scorePlate) = 0;
+};
 struct Plate
 {
 	Squer** f;
 	int height;
 	bool gameover;
 	int width;
+	virtual void get_drawed(Visitor* dv) = 0;
 };
 struct ScorePlate : public Plate
 {
@@ -28,6 +37,10 @@ struct ScorePlate : public Plate
 				f[i][y].sq = "::";
 			}
 		}
+	}
+	void get_drawed(Visitor* dv) override
+	{
+		dv->get_plate(this);
 	}
 };
 struct Fuild : public Plate
@@ -62,12 +75,16 @@ struct Fuild : public Plate
 			}
 		}
 	}
+	void get_drawed(Visitor* dv) override
+	{
+		dv->get_plate(this);
+	}
 };
-struct drawerVisitor
+struct drawerVisitor :  public Visitor
 {
 	int end_of_scorePlate;
 	char buffer[5000];
-	void get_score_plate(ScorePlate* scorePlate)
+	void get_plate(ScorePlate* scorePlate) override
 	{
 		int count = 0;
 		string sc = to_string(scorePlate->pointsLine);
@@ -98,7 +115,7 @@ struct drawerVisitor
 		}
 		end_of_scorePlate = count;
 	}
-	void get_game_fuild(Fuild* fuild)
+	void get_plate(Fuild* fuild) override
 	{
 		int count = end_of_scorePlate;
 		for (int i = 0; i < fuild->height; i++)
@@ -116,8 +133,8 @@ struct drawerVisitor
 	}
 	void draw(Fuild* fuild, ScorePlate* scorePlate)
 	{
-		get_score_plate(scorePlate);
-		get_game_fuild(fuild);
+		get_plate(scorePlate);
+		get_plate(fuild);
 		move_cursore_topleft();
 		buffer[end_of_scorePlate] = '\0';
 		puts(buffer);
