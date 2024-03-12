@@ -530,7 +530,7 @@ struct RLbrick : public brick
 		switch (position % 4)
 		{
 		case 0: fuild->f[ycenter][xcenter - 1].sq = "  "; fuild->f[ycenter + 1][xcenter - 1].sq = "  "; fuild->f[ycenter + 1][xcenter + 1].sq = "  "; fuild->f[ycenter + 1][xcenter].sq = "  "; break;
-		case 1: fuild->f[ycenter + 1][xcenter].sq = "  "; fuild->f[ycenter + 1][xcenter + 1].sq = "  "; fuild->f[ycenter][xcenter + 1].sq = "  "; fuild->f[ycenter + 1][xcenter + 1].sq = "  "; break;
+		case 1: fuild->f[ycenter + 1][xcenter].sq = "  "; fuild->f[ycenter + 1][xcenter + 1].sq = "  "; fuild->f[ycenter][xcenter + 1].sq = "  "; fuild->f[ycenter - 1][xcenter + 1].sq = "  "; break;
 		case 2: fuild->f[ycenter][xcenter + 1].sq = "  "; fuild->f[ycenter - 1][xcenter + 1].sq = "  "; fuild->f[ycenter - 1][xcenter].sq = "  "; fuild->f[ycenter - 1][xcenter - 1].sq = "  "; break;
 		case 3: fuild->f[ycenter - 1][xcenter].sq = "  "; fuild->f[ycenter - 1][xcenter - 1].sq = "  "; fuild->f[ycenter][xcenter - 1].sq = "  "; fuild->f[ycenter + 1][xcenter - 1].sq = "  "; break;
 		}
@@ -540,7 +540,7 @@ struct RLbrick : public brick
 		switch (position % 4)
 		{
 		case 0: fuild->f[ycenter][xcenter - 1].sq = "[]"; fuild->f[ycenter + 1][xcenter - 1].sq = "[]"; fuild->f[ycenter + 1][xcenter + 1].sq = "[]"; fuild->f[ycenter + 1][xcenter].sq = "[]"; break;
-		case 1: fuild->f[ycenter + 1][xcenter].sq = "[]"; fuild->f[ycenter + 1][xcenter + 1].sq = "[]"; fuild->f[ycenter][xcenter + 1].sq = "[]"; fuild->f[ycenter + 1][xcenter + 1].sq = "[]"; break;
+		case 1: fuild->f[ycenter + 1][xcenter].sq = "[]"; fuild->f[ycenter + 1][xcenter + 1].sq = "[]"; fuild->f[ycenter][xcenter + 1].sq = "[]"; fuild->f[ycenter - 1][xcenter + 1].sq = "[]"; break;
 		case 2: fuild->f[ycenter][xcenter + 1].sq = "[]"; fuild->f[ycenter - 1][xcenter + 1].sq = "[]"; fuild->f[ycenter - 1][xcenter].sq = "[]"; fuild->f[ycenter - 1][xcenter - 1].sq = "[]"; break;
 		case 3: fuild->f[ycenter - 1][xcenter].sq = "[]"; fuild->f[ycenter - 1][xcenter - 1].sq = "[]"; fuild->f[ycenter][xcenter - 1].sq = "[]"; fuild->f[ycenter + 1][xcenter - 1].sq = "[]"; break;
 		}

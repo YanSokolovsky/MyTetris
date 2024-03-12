@@ -18,11 +18,11 @@ struct Plate
 	int height;
 	bool gameover;
 	int width;
+	int pointsLine;
 	virtual void get_drawed(Visitor* dv) = 0;
 };
 struct ScorePlate : public Plate
 {
-	int pointsLine;
 	ScorePlate(int w)
 	{
 		pointsLine = 0;
@@ -34,7 +34,17 @@ struct ScorePlate : public Plate
 			f[i] = new Squer[w];
 			for (int y = 0; y < w; y++)
 			{
-				f[i][y].sq = "::";
+				f[i][y].sq = ".`";
+			}
+		}
+	}
+	void clearing_plate()
+	{
+		for (int i = 0; i < 5; i++)
+		{
+			for (int y = 0; y < width; y++)
+			{
+				f[i][y].sq = ".`";
 			}
 		}
 	}
@@ -88,17 +98,20 @@ struct drawerVisitor :  public Visitor
 	{
 		int count = 0;
 		string sc = to_string(scorePlate->pointsLine);
-		char* scoreline = new char[scorePlate->width * 2];
-		int length = (scorePlate->width * 2 - sc.size()) / 2;
-		for (int i = 0; i < scorePlate->width * 2; i++)
+		for (int i = 0; i < scorePlate->width - sc.size() / 2; i++)
 		{
-			buffer[count] = ':';
+			buffer[count] = '-';
 			count++;
 		}
 		for (int i = 0; i < sc.size(); i++)
 		{
-			buffer[length] = sc[length];
-			length++;
+			buffer[count] = sc[i];
+			count++;
+		}
+		while (count < scorePlate->width * 2)
+		{
+			buffer[count] = '-';
+			count++;
 		}
 		buffer[count] = '\n';
 		count++;

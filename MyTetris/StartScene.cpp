@@ -3,6 +3,7 @@
 #include "Score.h"
 #include "ScoreScene.h"
 #include "SettingsScene.h"
+#include "GameFuild.h"
 
 #include <string>
 #include <iostream>
@@ -75,8 +76,8 @@ void start_menu_launch()
 			move_cursore_topleft();
 			invisible_cursor();
 			if (button % 3 == 0) {
-				//boost::thread t(startgame, settings, score);
-				//t.join();
+				boost::thread t(game_launch, settings, score);
+				t.join();
 				set_console_size_by_chars(34, 63);
 			}
 			if (button % 3 == 1) {
@@ -91,10 +92,6 @@ void start_menu_launch()
 			}
 			selector(button);
 			Sleep(100);
-		}
-		if (GetAsyncKeyState(VK_ESCAPE) & 0x8000)
-		{
-			break;
 		}
 	}
 };
