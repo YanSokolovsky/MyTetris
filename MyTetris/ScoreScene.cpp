@@ -7,15 +7,12 @@
 
 void score_menu_launch(Score* score)
 {
-    score->names = vector<string>();
-    score->points = vector<int>();
-    score->get_data_from_file();
     for (int i = 0; i < score->names.size(); i++)
     {
-        cout << "---------------------------------------------------\n";
-        cout << "|" << std::setw(25) << score->names[i]
-             << score->points[i] << std::setw(0) << "|" << endl;
-        cout << "---------------------------------------------------\n";
+        cout << " --------------------------------------------------\n";
+        cout << "|" << std::setw(17) << score->names[i] << std::setw(17)
+             << score->points[i] << std::setw(17) << "|" << endl;
+        cout << " --------------------------------------------------\n";
     }
     while (!(GetAsyncKeyState(VK_ESCAPE) & 0x8000));
     return;

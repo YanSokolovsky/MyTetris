@@ -23,23 +23,23 @@ struct Settings {
 	void get_settings_from_file()
 	{
 		ifstream in("settings.txt");
-		if (in.eof())
+		if (!in.eof())
 		{
-			standart_settings();
+			in >> height >> width
+				>> saving >> speed
+				>> number_of_players
+				>> volume_of_music >> volume_of_music;
 		}
 		else
 		{
-			in >> height >> width
-			   >> saving >> speed
-			   >> number_of_players
-			   >> volume_of_music >> volume_of_music;
+			standart_settings();
 		}
 		in.close();
 	}
 	void write_settings_to_file() const
 	{
 		ofstream out("settings.txt");
-		if (out.is_open()) {
+		if (!out.is_open()) {
 			return;
 		}
 		out << height << endl << width << endl

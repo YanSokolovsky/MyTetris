@@ -165,6 +165,7 @@ struct Linebrick : public brick
 {
 	Linebrick(Plate* f, int x, int y)
 	{
+		srand(time(NULL));
 		ycenter = y;
 		xcenter = x;
 		position = rand() / 4 + 100;
@@ -277,6 +278,7 @@ struct Lbrick : public brick
 {
 	Lbrick(Plate* f, int x, int y)
 	{
+		srand(time(NULL));
 		ycenter = y;
 		xcenter = x;
 		position = rand() / 4 + 100;
@@ -418,6 +420,7 @@ struct RLbrick : public brick
 {
 	RLbrick(Plate* f, int x, int y)
 	{
+		srand(time(NULL));
 		ycenter = y;
 		xcenter = x;
 		position = rand() / 4 + 100;
@@ -550,6 +553,7 @@ struct Zbrick : public brick
 {
 	Zbrick(Plate* f, int x, int y)
 	{
+		srand(time(NULL));
 		ycenter = y;
 		xcenter = x;
 		position = rand() / 4 + 100;
@@ -671,6 +675,7 @@ struct RZbrick : public brick
 {
 	RZbrick(Plate* f, int x, int y)
 	{
+		srand(time(NULL));
 		ycenter = y;
 		xcenter = x;
 		position = rand() / 4 + 100;
@@ -792,6 +797,7 @@ struct SQbrick : public brick
 {
 	SQbrick(Plate* f, int x, int y)
 	{
+		srand(time(NULL));
 		ycenter = y;
 		xcenter = x;
 		position = rand() / 4 + 100;

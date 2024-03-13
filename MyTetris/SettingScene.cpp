@@ -187,6 +187,7 @@ void settings_menu_launch(Settings* settings)
 		}
 		if (GetAsyncKeyState(VK_ESCAPE) & 0x8000)
 		{
+			settings->write_settings_to_file();
 			return;
 		}
 		if (GetAsyncKeyState(VK_DOWN) & 0x8000)

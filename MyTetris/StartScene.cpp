@@ -33,6 +33,10 @@ void start_menu_launch()
 	Settings* settings = new Settings();
 	settings->standart_settings();
 	Score* score = new Score();
+	score->names = vector<string>();
+	score->points = vector<int>();
+	score->get_data_from_file();
+	settings->get_settings_from_file();
 	int button = 102;
 	char key;
 	set_console_size_by_chars(34, 63);

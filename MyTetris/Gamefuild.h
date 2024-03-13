@@ -4,6 +4,7 @@
 #include "Plates.h"
 #include "Bricks.h"
 #include "Squer.h"
+#include "Sound.h"
 
 #include <string>
 #include <iostream>
@@ -166,9 +167,6 @@ void movement_to_the_right(brick* t, Settings* settings, Plate* fuild, Plate* sc
 void Tgame(Settings* settings, Plate* fuild, Plate* plate)
 {
 	Tbrick* t = new Tbrick(fuild, settings->width / 2, 3);
-	Tbrick* st = new Tbrick(plate, settings->width / 2, 2);
-	st->position = t->position;
-	st->drow();
 	int i = 0;
 	boost::thread th(droping_of_brick, (brick*)t, settings, fuild, plate);
 	boost::thread th1(rotation_movement, (brick*)t, settings, fuild, plate);
@@ -184,7 +182,7 @@ void Tgame(Settings* settings, Plate* fuild, Plate* plate)
 		{
 			i = 0;
 		}
-		if (i == 2)
+		if (i == 3)
 		{
 			t->exist = false;
 			break;
@@ -207,9 +205,6 @@ void Tgame(Settings* settings, Plate* fuild, Plate* plate)
 void Linegame(Settings* settings, Plate* fuild, Plate* plate)
 {
 	Linebrick* t = new Linebrick(fuild, settings->width / 2, 3);
-	Linebrick* st = new Linebrick(plate, settings->width / 2, 2);
-	st->position = t->position;
-	st->drow();
 	int i = 0;
 	boost::thread th(droping_of_brick, (brick*)t, settings, fuild, plate);
 	boost::thread th1(rotation_movement, (brick*)t, settings, fuild, plate);
@@ -225,7 +220,7 @@ void Linegame(Settings* settings, Plate* fuild, Plate* plate)
 		{
 			i = 0;
 		}
-		if (i == 2)
+		if (i == 3)
 		{
 			t->exist = false;
 			worker(fuild, plate);
@@ -249,9 +244,6 @@ void Linegame(Settings* settings, Plate* fuild, Plate* plate)
 void Lgame(Settings* settings, Plate* fuild, Plate* plate)
 {
 	Lbrick* t = new Lbrick(fuild, settings->width / 2, 3);
-	Lbrick* st = new Lbrick(plate, settings->width / 2, 2);
-	st->position = t->position;
-	st->drow();
 	int i = 0;
 	boost::thread th(droping_of_brick, (brick*)t, settings, fuild, plate);
 	boost::thread th1(rotation_movement, (brick*)t, settings, fuild, plate);
@@ -267,7 +259,7 @@ void Lgame(Settings* settings, Plate* fuild, Plate* plate)
 		{
 			i = 0;
 		}
-		if (i == 2)
+		if (i == 3)
 		{
 			t->exist = false;
 			worker(fuild, plate);
@@ -290,9 +282,6 @@ void Lgame(Settings* settings, Plate* fuild, Plate* plate)
 void RLgame(Settings* settings, Plate* fuild, Plate* plate)
 {
 	RLbrick* t = new RLbrick(fuild, settings->width / 2, 3);
-	RLbrick* st = new RLbrick(plate, settings->width / 2, 2);
-	st->position = t->position;
-	st->drow();
 	int i = 0;
 	boost::thread th(droping_of_brick, (brick*)t, settings, fuild, plate);
 	boost::thread th1(rotation_movement, (brick*)t, settings, fuild, plate);
@@ -308,7 +297,7 @@ void RLgame(Settings* settings, Plate* fuild, Plate* plate)
 		{
 			i = 0;
 		}
-		if (i == 2)
+		if (i == 3)
 		{
 			t->exist = false;
 			worker(fuild, plate);
@@ -331,9 +320,6 @@ void RLgame(Settings* settings, Plate* fuild, Plate* plate)
 void Zgame(Settings* settings, Plate* fuild, Plate* plate)
 {
 	Zbrick* t = new Zbrick(fuild, settings->width / 2, 3);
-	Zbrick* st = new Zbrick(plate, settings->width / 2, 2);
-	st->position = t->position;
-	st->drow();
 	int i = 0;
 	boost::thread th(droping_of_brick, (brick*)t, settings, fuild, plate);
 	boost::thread th1(rotation_movement, (brick*)t, settings, fuild, plate);
@@ -349,7 +335,7 @@ void Zgame(Settings* settings, Plate* fuild, Plate* plate)
 		{
 			i = 0;
 		}
-		if (i == 2)
+		if (i == 3)
 		{
 			t->exist = false;
 			worker(fuild, plate);
@@ -372,9 +358,6 @@ void Zgame(Settings* settings, Plate* fuild, Plate* plate)
 void RZgame(Settings* settings, Plate* fuild, Plate* plate)
 {
 	RZbrick* t = new RZbrick(fuild, settings->width / 2, 3);
-	RZbrick* st = new RZbrick(plate, settings->width / 2, 2);
-	st->position = t->position;
-	st->drow();
 	int i = 0;
 	boost::thread th(droping_of_brick, (brick*)t, settings, fuild, plate);
 	boost::thread th1(rotation_movement, (brick*)t, settings, fuild, plate);
@@ -390,7 +373,7 @@ void RZgame(Settings* settings, Plate* fuild, Plate* plate)
 		{
 			i = 0;
 		}
-		if (i == 2)
+		if (i == 3)
 		{
 			t->exist = false;
 			worker(fuild, plate);
@@ -413,9 +396,6 @@ void RZgame(Settings* settings, Plate* fuild, Plate* plate)
 void SQgame(Settings* settings, Plate* fuild, Plate* plate)
 {
 	SQbrick* t = new SQbrick(fuild, settings->width / 2, 3);
-	SQbrick* st = new SQbrick(plate, settings->width / 2, 2);
-	st->position = t->position;
-	st->drow();
 	int i = 0;
 	boost::thread th(droping_of_brick, (brick*)t, settings, fuild, plate);
 	boost::thread th1(rotation_movement, (brick*)t, settings, fuild, plate);
@@ -431,7 +411,7 @@ void SQgame(Settings* settings, Plate* fuild, Plate* plate)
 		{
 			i = 0;
 		}
-		if (i == 2)
+		if (i == 3)
 		{
 			t->exist = false;
 			worker(fuild, plate);
@@ -451,8 +431,57 @@ void SQgame(Settings* settings, Plate* fuild, Plate* plate)
 	ScorePlate* sp = static_cast<ScorePlate*>(plate);
 	sp->clearing_plate();
 }
+void draw_next_brick(int i, Plate* scorePlate, Settings* settings)
+{
+	if (i == 0)
+	{
+		Tbrick* t = new Tbrick(scorePlate, settings->width / 2, 2);
+		t->position = 0;
+		t->drow();
+	}
+	if (i == 1)
+	{
+		Linebrick* t = new Linebrick(scorePlate, settings->width / 2, 2);
+		t->position = 0;
+		t->drow();
+	}
+	if (i == 2)
+	{
+		Lbrick* t = new Lbrick(scorePlate, settings->width / 2, 2);
+		t->position = 0;
+		t->drow();
+	}
+	if (i == 3)
+	{
+		RLbrick* t = new RLbrick(scorePlate, settings->width / 2, 2);
+		t->position = 0;
+		t->drow();
+	}
+	if (i == 4)
+	{
+		Zbrick* t = new Zbrick(scorePlate, settings->width / 2, 2);
+		t->position = 0;
+		t->drow();
+	}
+	if (i == 5)
+	{
+		RZbrick* t = new RZbrick(scorePlate, settings->width / 2, 2);
+		t->position = 0;
+		t->drow();
+	}
+	if (i == 6)
+	{
+		SQbrick* t = new SQbrick(scorePlate, settings->width / 2, 2);
+		t->position = 0;
+		t->drow();
+	}
+}
 void game_launch(Settings* settings, Score* score)
 {
+	
+	waveOutSetVolume(0, settings->volume_of_music | settings->volume_of_music << 16);
+	PlaySoundA("tetris2.wav", NULL, SND_LOOP | SND_ASYNC);
+
 	set_console_size_by_chars(settings->height + 10, (settings->width + 2) * 2);
 	centralize_console();
 	invisible_cursor();
@@ -461,59 +490,74 @@ void game_launch(Settings* settings, Score* score)
 	drawer = new drawerVisitor();
 	drawer->draw(static_cast<Fuild*>(fuild), static_cast<ScorePlate*>(scoreFuild));
 	srand(time(NULL));
-	int i = rand() % 7;
+	int current = rand() % 7;
+	int next;
 	while (true) {
-		i = rand() % 7;
+		srand(time(NULL));
+		next = rand() % 7;
+		draw_next_brick(next, scoreFuild, settings);
 		if (fuild->gameover)
 		{
 			break;
 		}
-		if (i == 0)
+		if (current == 0)
 		{
 			boost::thread g(Tgame, settings, fuild, scoreFuild);
 			g.join();
+			current = next;
 			continue;
 		}
-		if (i == 1)
+		if (current == 1)
 		{
 			boost::thread g(Linegame, settings, fuild, scoreFuild);
 			g.join();
+			current = next;
 			continue;
 		}
-		if (i == 2)
+		if (current == 2)
 		{
 			boost::thread g(Lgame, settings, fuild, scoreFuild);
 			g.join();
+			current = next;
 			continue;
 		}
-		if (i == 3)
+		if (current == 3)
 		{
 			boost::thread g(RLgame, settings, fuild, scoreFuild);
 			g.join();
+			current = next;
 			continue;
 		}
-		if (i == 4)
+		if (current == 4)
 		{
 			boost::thread g(Zgame, settings, fuild, scoreFuild);
 			g.join();
+			current = next;
 			continue;
 		}
-		if (i == 5)
+		if (current == 5)
 		{
 			boost::thread g(RZgame, settings, fuild, scoreFuild);
 			g.join();
+			current = next;
 			continue;
 		}
-		if (i == 6)
+		if (current == 6)
 		{
 			boost::thread g(SQgame, settings, fuild, scoreFuild);
 			g.join();
+			current = next;
 			continue;
 		}
 	}
+	
+	PlaySound(NULL, NULL, 0);
+
 	clear_console();
-	slow_drawer_from_file("gameover.txt");
+	set_console_size_by_chars(40, 70);
+	cout << slow_drawer_from_file("gameover.txt");
 	Sleep(1000);
+	clear_console();
 	if (settings->saving == "yes")
 	{
 		Sleep(1000);
@@ -522,5 +566,6 @@ void game_launch(Settings* settings, Score* score)
 		cin >> name;
 		score->names.push_back(name);
 		score->points.push_back(scoreFuild->pointsLine);
+		score->write_data_to_file();
 	}
 };

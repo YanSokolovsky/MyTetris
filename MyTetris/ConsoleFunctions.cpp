@@ -85,8 +85,8 @@ void centralize_console()
 
 std::string slow_drawer_from_file(std::string filename)
 {
-	std::string line;
-	std::string resline;
+	std::string line = "";
+	std::string resline = "";
 	std::ifstream in(filename);
 	if (in.is_open()) {
 		while (std::getline(in, line)) {

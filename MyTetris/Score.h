@@ -10,11 +10,7 @@ struct Score
 	void get_data_from_file()
 	{
 		ifstream in("score.txt");
-		if (!in.is_open())
-		{
-			return;
-		}
-		while (in.eof())
+		while (!in.eof())
 		{
 			string name;
 			in >> name;
@@ -34,7 +30,14 @@ struct Score
 		}
 		for (int i = 0; i < names.size(); i++)
 		{
-			out << names[i] << " " << points[i] << endl;
+			if (i != names.size() - 1)
+			{
+				out << names[i] << " " << points[i] << endl;
+			}
+			else
+			{
+				out << names[i] << " " << points[i];
+			}
 		}
 		out.close();
 	}
