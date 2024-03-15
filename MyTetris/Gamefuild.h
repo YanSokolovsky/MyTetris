@@ -1,10 +1,9 @@
 #pragma once
 #include "Settings.h"
 #include "Score.h"
-#include "Plates.h"
-#include "Bricks.h"
 #include "Squer.h"
-#include "Sound.h"
+#include "StartScene.h"
+#include "Brick_controllers.h"
 
 #include <string>
 #include <iostream>
@@ -12,11 +11,10 @@
 #include <conio.h>
 #include <time.h>
 #include <boost/thread.hpp>
-#include "StartScene.h"
 #include <boost/thread/mutex.hpp>
+#include <iostream>
 using namespace std;
-boost::mutex mut, lrmut;
-drawerVisitor* drawer;
+boost::mutex  lrmut;
 bool is_row_full(int i, Plate* fuild)
 {
 	for (int y = 1; y < fuild->width - 1; y++)
@@ -60,113 +58,9 @@ void worker(Plate* fuild, Plate* plate)
 	}
 	drawer->draw(static_cast<Fuild*>(fuild), static_cast<ScorePlate*>(plate));
 }
-void droping_of_brick(brick* t, Settings* settings, Plate* fuild, Plate* score)
+void Tgame(Settings* settings, Plate* fuild, Plate* plate, int x, int y)
 {
-	int i = 1000;
-	while (true)
-	{
-		if (t->exist)
-		{
-			mut.lock();
-			t->movedown();
-			drawer->draw(static_cast<Fuild*>(fuild), static_cast<ScorePlate*>(score));
-			mut.unlock();
-		}
-		else
-		{
-			return;
-		}
-		Sleep(i / settings->speed);
-	}
-}
-void rotation_movement(brick* t, Settings* settings, Plate* fuild, Plate* score)
-{
-	while (t->exist)
-	{
-		if (GetAsyncKeyState(VK_UP)) {
-			mut.lock();
-			t->rotate();
-			drawer->draw(static_cast<Fuild*>(fuild), static_cast<ScorePlate*>(score));
-			mut.unlock();
-			for (int i = 0; i < 15 && GetAsyncKeyState(VK_UP) & 0x8000; i++)
-			{
-				Sleep(10);
-			}
-			while (GetAsyncKeyState(VK_UP) && t->exist)
-			{
-				mut.lock();
-				t->rotate();
-				drawer->draw(static_cast<Fuild*>(fuild), static_cast<ScorePlate*>(score));
-				mut.unlock();
-				Sleep(90);
-			}
-		}
-	}
-}
-void down_movement(brick* t, Settings* settings, Plate* fuild, Plate* score)
-{
-	while (t->exist)
-	{
-		if (GetAsyncKeyState(VK_DOWN)) {
-			mut.lock();
-			t->movedown();
-			drawer->draw(static_cast<Fuild*>(fuild), static_cast<ScorePlate*>(score));
-			mut.unlock();
-			Sleep(100);
-		}
-	}
-}
-void movement_to_the_left(brick* t, Settings* settings, Plate* fuild, Plate* score)
-{
-	while (t->exist)
-	{
-		if (GetAsyncKeyState(VK_LEFT) && !GetAsyncKeyState(VK_RIGHT) && t->exist) {
-			mut.lock();
-			t->moveleft();
-			drawer->draw(static_cast<Fuild*>(fuild), static_cast<ScorePlate*>(score));
-			mut.unlock();
-			for (int i = 0; i < 15 && GetAsyncKeyState(VK_LEFT) && !GetAsyncKeyState(VK_RIGHT); i++)
-			{
-				Sleep(10);
-			}
-			while (GetAsyncKeyState(VK_LEFT) && !GetAsyncKeyState(VK_RIGHT) && t->exist)
-			{
-				mut.lock();
-				t->moveleft();
-				drawer->draw(static_cast<Fuild*>(fuild), static_cast<ScorePlate*>(score));
-				mut.unlock();
-				Sleep(90);
-			}
-		}
-	}
-}
-void movement_to_the_right(brick* t, Settings* settings, Plate* fuild, Plate* score)
-{
-	while (t->exist)
-	{
-		if (!GetAsyncKeyState(VK_LEFT) && GetAsyncKeyState(VK_RIGHT)) {
-			mut.lock();
-			t->moveright();
-			drawer->draw(static_cast<Fuild*>(fuild), static_cast<ScorePlate*>(score));
-			mut.unlock();
-			for (int i = 0; i < 15 && !GetAsyncKeyState(VK_LEFT) && GetAsyncKeyState(VK_RIGHT); i++)
-			{
-				Sleep(10);
-			}
-			while (!GetAsyncKeyState(VK_LEFT) && GetAsyncKeyState(VK_RIGHT) && t->exist)
-			{
-				mut.lock();
-				t->moveright();
-				drawer->draw(static_cast<Fuild*>(fuild), static_cast<ScorePlate*>(score));
-				mut.unlock();
-				Sleep(90);
-			}
-		}
-	}
-}
-void Tgame(Settings* settings, Plate* fuild, Plate* plate)
-{
-	Tbrick* t = new Tbrick(fuild, settings->width / 2, 3);
+	Tbrick* t = new Tbrick(fuild, x, y);
 	int i = 0;
 	boost::thread th(droping_of_brick, (brick*)t, settings, fuild, plate);
 	boost::thread th1(rotation_movement, (brick*)t, settings, fuild, plate);
@@ -202,9 +96,9 @@ void Tgame(Settings* settings, Plate* fuild, Plate* plate)
 	sp->clearing_plate();
 	worker(fuild, plate);
 }
-void Linegame(Settings* settings, Plate* fuild, Plate* plate)
+void Linegame(Settings* settings, Plate* fuild, Plate* plate, int x, int y)
 {
-	Linebrick* t = new Linebrick(fuild, settings->width / 2, 3);
+	Linebrick* t = new Linebrick(fuild, x, y);
 	int i = 0;
 	boost::thread th(droping_of_brick, (brick*)t, settings, fuild, plate);
 	boost::thread th1(rotation_movement, (brick*)t, settings, fuild, plate);
@@ -241,9 +135,9 @@ void Linegame(Settings* settings, Plate* fuild, Plate* plate)
 	ScorePlate* sp = static_cast<ScorePlate*>(plate);
 	sp->clearing_plate();
 }
-void Lgame(Settings* settings, Plate* fuild, Plate* plate)
+void Lgame(Settings* settings, Plate* fuild, Plate* plate, int x, int y)
 {
-	Lbrick* t = new Lbrick(fuild, settings->width / 2, 3);
+	Lbrick* t = new Lbrick(fuild, x, y);
 	int i = 0;
 	boost::thread th(droping_of_brick, (brick*)t, settings, fuild, plate);
 	boost::thread th1(rotation_movement, (brick*)t, settings, fuild, plate);
@@ -279,9 +173,9 @@ void Lgame(Settings* settings, Plate* fuild, Plate* plate)
 	ScorePlate* sp = static_cast<ScorePlate*>(plate);
 	sp->clearing_plate();
 }
-void RLgame(Settings* settings, Plate* fuild, Plate* plate)
+void RLgame(Settings* settings, Plate* fuild, Plate* plate, int x, int y)
 {
-	RLbrick* t = new RLbrick(fuild, settings->width / 2, 3);
+	RLbrick* t = new RLbrick(fuild, x, y);
 	int i = 0;
 	boost::thread th(droping_of_brick, (brick*)t, settings, fuild, plate);
 	boost::thread th1(rotation_movement, (brick*)t, settings, fuild, plate);
@@ -317,9 +211,9 @@ void RLgame(Settings* settings, Plate* fuild, Plate* plate)
 	ScorePlate* sp = static_cast<ScorePlate*>(plate);
 	sp->clearing_plate();
 }
-void Zgame(Settings* settings, Plate* fuild, Plate* plate)
+void Zgame(Settings* settings, Plate* fuild, Plate* plate, int x, int y)
 {
-	Zbrick* t = new Zbrick(fuild, settings->width / 2, 3);
+	Zbrick* t = new Zbrick(fuild, x, y);
 	int i = 0;
 	boost::thread th(droping_of_brick, (brick*)t, settings, fuild, plate);
 	boost::thread th1(rotation_movement, (brick*)t, settings, fuild, plate);
@@ -355,9 +249,9 @@ void Zgame(Settings* settings, Plate* fuild, Plate* plate)
 	ScorePlate* sp = static_cast<ScorePlate*>(plate);
 	sp->clearing_plate();
 }
-void RZgame(Settings* settings, Plate* fuild, Plate* plate)
+void RZgame(Settings* settings, Plate* fuild, Plate* plate, int x, int y)
 {
-	RZbrick* t = new RZbrick(fuild, settings->width / 2, 3);
+	RZbrick* t = new RZbrick(fuild, x, y);
 	int i = 0;
 	boost::thread th(droping_of_brick, (brick*)t, settings, fuild, plate);
 	boost::thread th1(rotation_movement, (brick*)t, settings, fuild, plate);
@@ -393,9 +287,9 @@ void RZgame(Settings* settings, Plate* fuild, Plate* plate)
 	ScorePlate* sp = static_cast<ScorePlate*>(plate);
 	sp->clearing_plate();
 }
-void SQgame(Settings* settings, Plate* fuild, Plate* plate)
+void SQgame(Settings* settings, Plate* fuild, Plate* plate, int x, int y)
 {
-	SQbrick* t = new SQbrick(fuild, settings->width / 2, 3);
+	SQbrick* t = new SQbrick(fuild, x, y);
 	int i = 0;
 	boost::thread th(droping_of_brick, (brick*)t, settings, fuild, plate);
 	boost::thread th1(rotation_movement, (brick*)t, settings, fuild, plate);
@@ -502,49 +396,49 @@ void game_launch(Settings* settings, Score* score)
 		}
 		if (current == 0)
 		{
-			boost::thread g(Tgame, settings, fuild, scoreFuild);
+			boost::thread g(Tgame, settings, fuild, scoreFuild, fuild->width / 2, 3);
 			g.join();
 			current = next;
 			continue;
 		}
 		if (current == 1)
 		{
-			boost::thread g(Linegame, settings, fuild, scoreFuild);
+			boost::thread g(Linegame, settings, fuild, scoreFuild, fuild->width / 2, 3);
 			g.join();
 			current = next;
 			continue;
 		}
 		if (current == 2)
 		{
-			boost::thread g(Lgame, settings, fuild, scoreFuild);
+			boost::thread g(Lgame, settings, fuild, scoreFuild, fuild->width / 2, 3);
 			g.join();
 			current = next;
 			continue;
 		}
 		if (current == 3)
 		{
-			boost::thread g(RLgame, settings, fuild, scoreFuild);
+			boost::thread g(RLgame, settings, fuild, scoreFuild, fuild->width / 2, 3);
 			g.join();
 			current = next;
 			continue;
 		}
 		if (current == 4)
 		{
-			boost::thread g(Zgame, settings, fuild, scoreFuild);
+			boost::thread g(Zgame, settings, fuild, scoreFuild, fuild->width / 2, 3);
 			g.join();
 			current = next;
 			continue;
 		}
 		if (current == 5)
 		{
-			boost::thread g(RZgame, settings, fuild, scoreFuild);
+			boost::thread g(RZgame, settings, fuild, scoreFuild, fuild->width / 2, 3);
 			g.join();
 			current = next;
 			continue;
 		}
 		if (current == 6)
 		{
-			boost::thread g(SQgame, settings, fuild, scoreFuild);
+			boost::thread g(SQgame, settings, fuild, scoreFuild, fuild->width / 2, 3);
 			g.join();
 			current = next;
 			continue;
@@ -555,15 +449,15 @@ void game_launch(Settings* settings, Score* score)
 
 	clear_console();
 	set_console_size_by_chars(40, 70);
-	cout << slow_drawer_from_file("gameover.txt");
+	std::cout << slow_drawer_from_file("gameover.txt");
 	Sleep(1000);
 	clear_console();
-	if (settings->saving == "yes")
+	if (settings->saving == "yes" && settings->number_of_players != 2)
 	{
 		Sleep(1000);
-		cout << "Enter your name hiro, that plays this game." << endl;
+		std::cout << "Enter your name hiro, that plays this game." << endl;
 		string name;
-		cin >> name;
+		std::cin >> name;
 		score->names.push_back(name);
 		score->points.push_back(scoreFuild->pointsLine);
 		score->write_data_to_file();
